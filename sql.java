@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sql {
+public class sql {
 
 	public static Connection getCon()throws Exception{
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -41,7 +41,7 @@ public class Sql {
 	}
 
 	public static List<User> getUser() throws Exception {
-		Connection con=Sql.getCon();
+		Connection con=sql.getCon();
 		Statement stmt=con.createStatement();
 		List<User> userList=new ArrayList<User>();
 		User user = null;

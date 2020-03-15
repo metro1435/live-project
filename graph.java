@@ -1,9 +1,3 @@
-package dbChart;
-
-public class graph {
-	
-}
-
 class Order{
 	private int orderID;//���
 	private String idNum;//���֤��
@@ -16,7 +10,7 @@ class Order{
 	public String getPhoneNum(){return phoneNum;}
 	public int getMaskNum(){return maskNum;}
 	public int getBallot(){return ballot;}
-	//public void setOrderID(int id){}
+	public void setOrderID(int id){}
 	public void setIdNum(String id){idNum=id;}
 	public void setPhoneNum(String phone){phoneNum=phone;}
 	public void setMaskNum(int mask){maskNum=mask;}
