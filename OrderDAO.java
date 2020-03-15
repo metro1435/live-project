@@ -86,6 +86,18 @@ public class OrderDAO {
         return orderList;
     }
     
+    public void updateInfo(String id) {
+        String sql="update order set ballot=? where order_ID=?";
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1,1);
+            ps.setString(2, id);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
     public void addList(String id,int today,int first,int second,int third) {
         String sql = "update user set today=? where ID_num=?";
         String sql1 = "update user set first=? where ID_num=?";
