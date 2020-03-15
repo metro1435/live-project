@@ -28,7 +28,33 @@ public class Registration {
         
         
         
-            
+            if(orderdao.find(order)) {
+                //告知重复预约，结束运行当前函数
+               return "预约失败";
+                
+            }else {
+                number+=1;
+                s=String.format("%08d",number-1);
+                order.setOrderID(s);
+                
+                orderdao.update(order);
+              
+                
+                User user=new User();
+                user.setFirst(2);
+                user.setSecond(2);
+                user.setThird(2);
+                user.setToday(0);
+                user.setName(name);
+                user.setPhoneNum(telNumber);
+                user.setIdNum(id);
+                
+                UserDAO userDao=new UserDAO();
+                if(userDao. getUserById(id)==null) {
+                    userDao.add(user);
+                }
+                
+            }
             
            
       
