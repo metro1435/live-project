@@ -14,6 +14,7 @@ public class OrderDAO {
             if (rs.next()) {
                 total = rs.getInt("totalCount");
             }
+            DBUtil.close(rs,s,c);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -29,6 +30,8 @@ public class OrderDAO {
             ps.setInt(4,order.getMaskNum());
             ps.setInt(5,order.getBallot());
             ps.execute();
+            ps.close();
+            c.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,6 +47,8 @@ public class OrderDAO {
             ps.setInt(4,order.getBallot());
             ps.setString(5, order.getOrderID());
             ps.execute();
+            ps.close();
+            c.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,6 +79,7 @@ public class OrderDAO {
                 order.setBallot(rs.getInt("ballot"));
                 orderList.add(order);
             }
+            DBUtil.close(rs,stmt,c);
         } catch (SQLException e) {
             e.printStackTrace();
         }
