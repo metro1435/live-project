@@ -16,7 +16,21 @@ public class Registration {
         sum=sum_;
     }
     public String isLegal()throws Exception{
+        String s="";
         
+        Order order=new Order();
+        order.setBallot(0);
+        order.setIdNum(id);
+        order.setMaskNum(sum);
+        order.setOrderID(s);
+        order.setPhoneNum(telNumber);
+        OrderDAO orderdao=new OrderDAO();
+        
+        
+        
+            
+            
+           
       
          return s;
         
