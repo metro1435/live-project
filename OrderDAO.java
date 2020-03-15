@@ -85,7 +85,33 @@ public class OrderDAO {
         }
         return orderList;
     }
-
+    
+    public void addList(String id,int today,int first,int second,int third) {
+        String sql = "update user set today=? where ID_num=?";
+        String sql1 = "update user set first=? where ID_num=?";
+        String sql2 = "update user set second=? where ID_num=?";
+        String sql3 = "update user set third=? where ID_num=?";
+        try (Connection c = DBUtil.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, today);
+            ps.setString(2, id);
+            ps.execute();
+            PreparedStatement ps1 = c.prepareStatement(sql1);
+            ps1.setInt(1, first);
+            ps1.setString(2, id);
+            ps1.execute();
+            PreparedStatement ps2 = c.prepareStatement(sql2);
+            ps2.setInt(1, second);
+            ps2.setString(2, id);
+            ps2.execute();
+            PreparedStatement ps3 = c.prepareStatement(sql3);
+            ps3.setInt(1, third);
+            ps3.setString(2, id);
+            ps3.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+   
 
 
 }
