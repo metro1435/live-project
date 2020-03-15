@@ -4,7 +4,6 @@ import java.util.List;
 
 public class OrderDAO {
 
-    //获得几个数据段
     public int getTotal() {
         int total = 0;
         String sql = "SELECT COUNT(*) AS totalCount FROM mask.order";
@@ -20,7 +19,6 @@ public class OrderDAO {
         }
         return total;
     }
-    //增加
     public void add(Order order) {
         String sql = "insert into mask.order values(?, ?, ?, ?, ?)";
         try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
@@ -36,7 +34,6 @@ public class OrderDAO {
             e.printStackTrace();
         }
     }
-    //改
     public void update(Order order) {
         String sql="update mask.order set order_ID=?,ID_num=?,phone_num=?," +
                 "mask_num=?,ballot=? where order_ID=?";
@@ -95,6 +92,32 @@ public class OrderDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public User getUserById(String id){
+        String sql="select * from mask.user where ID_num = ?";
+        User user=null;
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1,id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                user = new User();
+                user.setName(rs.getString("name"));
+                user.setIdNum(rs.getString("ID_num"));
+                user.setPhoneNum(rs.getString("phone_num"));
+                user.setFirst(rs.getInt("first"));
+                user.setSecond(rs.getInt("second"));
+                user.setThird(rs.getInt("third"));
+                user.setToday(rs.getInt("today"));
+            }
+            else{
+                System.out.println("Can not found user where id="+id);
+          
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return user;
     }
 
     
