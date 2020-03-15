@@ -7,11 +7,12 @@ public class OrderDAO {
     //获得几个数据段
     public int getTotal() {
         int total = 0;
-        try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement()) {
-            String sql = "select count(*) from order";
-            ResultSet rs = s.executeQuery(sql);
-            while (rs.next()) {
-                total = rs.getInt(1);
+        String sql = "SELECT COUNT(*) AS totalCount FROM mask.order";
+        try (Connection c = DBUtil.getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+
+            ResultSet rs = s.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("totalCount");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -20,7 +21,7 @@ public class OrderDAO {
     }
     //增加
     public void add(Order order) {
-        String sql = "insert into order values(?, ?, ?, ?, ?)";
+        String sql = "insert into mask.order values(?, ?, ?, ?, ?)";
         try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, order.getOrderID());
             ps.setString(2, order.getIdNum());
@@ -34,7 +35,7 @@ public class OrderDAO {
     }
     //改
     public void update(Order order) {
-        String sql="update order set order_ID=?,ID_num=?,phone_num=?," +
+        String sql="update mask.order set order_ID=?,ID_num=?,phone_num=?," +
                 "mask_num=?,ballot=? where order_ID=?";
         try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, order.getIdNum());
@@ -61,7 +62,7 @@ public class OrderDAO {
     public static List<Order> get() throws Exception {
         List<Order> orderList=new ArrayList<Order>();
         Order order = null;
-        String sql = "select * from order";
+        String sql = "select * from mask.order";
         try (Connection c = DBUtil.getConnection(); Statement stmt=c.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()){
