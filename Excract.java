@@ -48,6 +48,26 @@ class Excract {
         changeStatus();
     	return orderList;
     }
+private void changeStatus() throws Exception {
+    	List<User> userList=UserDAO.get();
+        for (int i=0;i<userList.size();i++) {
+            User user=userList.get(i);
+            int today=user.getToday();
+            int first=user.getFirst();
+            int second=user.getSecond();
+            user.setToday(0);
+            user.setFirst(today);
+            user.setSecond(first);
+            user.setThird(second);
+            userList.set(i,user);
+        }
+        OrderDAO od=new OrderDAO();
+        for (int i=0;i<userList.size();i++) {
+            User user=userList.get(i);
+            od.addList(user.getIdNum(),user.getToday(),user.getFirst(),
+                    user.getSecond(),user.getThird());
+        }
+    }
 
 }
 
