@@ -1,66 +1,104 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.*;
+package initial_interface;
 
-public class Registration {
-    private String name;
-    private String telNumber;
-    private String id;
-    private int sum;
-    private static int number=0;
-    
-    public Registration(String name_,String telNumber_,String id_,int sum_) {
-        name=name_;
-        telNumber=telNumber_;
-        id=id_;
-        sum=sum_;
-    }
-    public String isLegal()throws Exception{
-        String s="";
-        
-        Order order=new Order();
-        order.setBallot(0);
-        order.setIdNum(id);
-        order.setMaskNum(sum);
-        order.setOrderID(s);
-        order.setPhoneNum(telNumber);
-        OrderDAO orderdao=new OrderDAO();
-        
-        
-        
-            if(orderdao.find(order)) {
-                //å‘ŠçŸ¥é‡å¤é¢„çº¦ï¼Œç»“æŸè¿è¡Œå½“å‰å‡½æ•°
-               return "é¢„çº¦å¤±è´¥";
-                
-            }else {
-                number+=1;
-                s=String.format("%08d",number-1);
-                order.setOrderID(s);
-                
-                orderdao.update(order);
-              
-                
-                User user=new User();
-                user.setFirst(2);
-                user.setSecond(2);
-                user.setThird(2);
-                user.setToday(0);
-                user.setName(name);
-                user.setPhoneNum(telNumber);
-                user.setIdNum(id);
-                
-                UserDAO userDao=new UserDAO();
-                if(userDao. getUserById(id)==null) {
-                    userDao.add(user);
-                }
-                
-            }
-            
-           
-      
-         return s;
-        
-    }
-    
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+//import function.Select_Function1;
+import javax.swing.*;
 
+import com.mysql.cj.xdevapi.ColumnDefinition.StaticColumnDefinition;
+
+public class Registration extends Frame {
+	Toolkit tool = getToolkit();
+	String url = "registration.jpg";
+	Image img = tool.getImage(url);
+
+	public void paint(Graphics g) {
+		g.drawImage(img, 0, 0,700,500, this);
+	}
+	
+	Label information=new Label("ä¸ªäººä¿¡æ¯",Label.CENTER);
+	Label name=new Label("ĞÕÃû",Label.CENTER);
+	Label id=new Label("Éí·İÖ¤ºÅÂë",Label.CENTER);
+	Label phone_num=new Label("µç»°ºÅÂë",Label.CENTER);
+	Label registration_num=new Label("Ô¤Ô¼¿ÚÕÖÊıÁ¿",Label.CENTER);
+	TextField name_field=new TextField(25);
+	TextField id_field=new TextField(25);
+	TextField phone_num_field=new TextField(25);
+	TextField registration_num_field=new TextField(25);
+	Button confirm=new Button("È·ÈÏ");
+	Frame frame=new Frame();
+	
+	public Registration(Frame frame) {
+		this.frame=frame;
+		setTitle("µÇ¼Ç½çÃæ");
+		setSize(700, 500);
+		setLayout(null);
+		setResizable(false);
+		setBackground(Color.white);
+		
+		information.setFont(new Font("ËÎÌå", Font.BOLD, 30));
+		information.setBounds(280, 100, 200, 50);
+		add(information);
+		
+		name.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		name.setBounds(180,180,150,30);
+		add(name);
+		name_field.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		name_field.setBounds(350,180,250,30);
+		add(name_field);
+		
+		id.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		id.setBounds(180,230,150,30);
+		add(id);
+		id_field.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		id_field.setBounds(350,230,250,30);
+		add(id_field);
+		
+		phone_num.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		phone_num.setBounds(180,280,150,30);
+		add(phone_num);
+		phone_num_field.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		phone_num_field.setBounds(350,280,250,30);
+		add(phone_num_field);
+		
+		registration_num.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		registration_num.setBounds(180,330,150,30);
+		add(registration_num);
+		registration_num_field.setFont(new Font("ËÎÌå",Font.BOLD,20));
+		registration_num_field.setBounds(350,330,250,30);
+		add(registration_num_field);
+		
+		confirm.setBounds(230, 410, 300, 50);
+		add(confirm);
+		
+		confirm.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				User user=new User();
+				user.setName(name_field.getText());
+				user.setIdNum(id_field.getText());
+				user.setPhoneNum(phone_num_field.getText());
+				user.setFirst(2);
+				user.setSecond(2);
+				user.setThird(2);
+				user.setToday(0);
+				UserDAO.add(user);
+				JOptionPane.showMessageDialog(null, "ÄúµÄÔ¤Ô¼±àºÅÊÇ"+"2");
+			}
+		});
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				frame.setEnabled(true);
+				dispose();
+			}
+		});
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setAlwaysOnTop(true);
+		
+	}
 }
