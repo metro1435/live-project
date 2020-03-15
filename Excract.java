@@ -24,6 +24,30 @@ class Excract {
         }
         return res;
     }
+ public List<Order> drawLots() throws Exception {
+    	int sum=0;
+    	OrderDAO od=new OrderDAO();
+    	List<Order> orderList=OrderDAO.get();
+        List<String> orderId=new ArrayList<String>();
+        for (int i=0;i<orderList.size();i++) {
+        	orderId.add(orderList.get(i).getOrderID());
+        }
+    	while (true) {
+    		int random=(int)(Math.random()*orderId.size());
+    		Order order=orderList.get(random);
+    		sum+=order.getMaskNum();
+    		User user=od.getUserById(order.getIdNum());
+    		if (maskNum-sum<=0) break;
+    		if (user.getFirst()==1||user.getSecond()==1||user.getThird()==1) continue;
+    		else {
+    			order.setBallot(1);
+                od.updateInfo(order.getOrderID());
+    			orderId.remove(random);
+    		}
+    	}
+        changeStatus();
+    	return orderList;
+    }
 
 }
 
